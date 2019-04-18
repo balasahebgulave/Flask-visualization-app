@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <script src="jquery-3.3.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+</head>
+<body>
+
+<div class="row" style="padding: 1%">
+
+<form method="post">
+        <div class="col-sm-3">
+        <label>Select Datafile to Visualize</label>
+        <select class="form-control" name='file' id = "file_id">
+            <option>select file here</option>
+            {% for i in total_files %}
+            <option>{{i}}</option>
+            {% endfor %}
+        </select> 
+        </div>
+
+
+        <div class="col-sm-3" style="padding: 2%">
+        <button type="" id="jspm" class="btn btn-primary">Select</button>
+        </div>
+</form>
+
+
+<div class="row">
+
+<form method="post">
+        <div class="col-sm-3">
+        <label>Select Datafile Columns and Chart-Type </label><br>
+        <!-- <select class="form-control" name='columns' id = "columns"> -->
+            {% for i in columns %}
+            <!-- <option>{{i}}</option> -->
+            <label><input type="checkbox" value="{{i}}" name="{{i}}">{{i}}</label>
+            {% endfor %}
+
+        <!-- </select>  -->
+
+        <select class="form-control" name='plot_type' id = "columns">
+        	<option value="bar">select plot type here</option>
+            <option>bar</option>
+            <option>line</option>
+            <option>pie</option>
+        </select> 
+        </div>
+
+
+        <div class="col-sm-3" style="padding: 2%">
+        <button type="" id="jspm" class="btn btn-primary">Select</button>
+        </div>
+</form>
+
+</div>
+
+
+
+{% if final_result %}
+
+
+<form method="post">
+        <div class="col-sm-3">
+        <label>Select filter for exact value</label>
+
+        <input type="range" min="{{final_result.minimum}}" max="{{final_result.maximum}}" id="blue" value="5" name='filter' onchange="updateTextInput(this.value);">
+        <center><input style="width: auto;" type="text" id="textInput" value=""></center>
+        </div>
+
+        <div class="col-sm-3" style="padding: 2%">
+        <button type="" id="jspm" class="btn btn-primary">filter</button>
+        </div>
+</form>
+
+
+
+
+
+
+<form method="post">
+        <div class="col-sm-3">
+        <label>Select filter <= limit</label>
+
+        <input type="range" min="{{final_result.minimum}}" max="{{final_result.maximum}}" id="blue" name='limit' onchange="updateLimitInput(this.value);">
+        <center><input style="width: auto;" type="text" id="ValInput" value=""></center>
+        </div>
+
+        <div class="col-sm-3" style="padding: 2%">
+        <button type="" id="jspm" class="btn btn-primary">filter</button>
+        </div>
+</form>
+
+</div>
+
+
+
+<div class="container" style="width: 50%; height: 35px">
+    <canvas id="gmyChartbar" width="400" height="300"></canvas>
+</div>
+
+
+
+
+
+
+
+<script>
+
+var ctx = document.getElementById('gmyChartbar').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: '{{final_result.plot}}',
+    data: {
+        labels: {{final_result.labels}},
+        datasets: [{
+            label: '# of Students',
+            data: {{final_result.results}} ,
+            backgroundColor: '#97ecef',
+            // borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }
+
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+{% endif %}
+
+
+<script>
+    function updateTextInput(val) {
+          document.getElementById('textInput').value=val;
+        }
+
+    function updateLimitInput(val) {
+          document.getElementById('ValInput').value=val; 
+        }
+</script>
+
+</body>
+</html>

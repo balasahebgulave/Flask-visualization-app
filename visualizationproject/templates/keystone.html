@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <script src="jquery-3.3.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+</head>
+
+<body>
+
+ <div class="row" style="padding: 1%">   
+<form method="post">
+        <div class="col-sm-2">
+        <label>Select filter for exact value</label>
+
+        <!-- <input type="range" min="0" max="20" id="blue" name='filter'> -->
+        <select class="form-control" name='filter' id = "blue">
+            {% if data %}
+            <option>select here</option>
+            {% for i in data%}
+            <option>{{i}}</option>
+            {% endfor %}
+
+            {% else %}
+            <option>select here</option>
+            {% for i in filter_result.data %}
+            <option>{{i}}</option>
+            {% endfor %}
+            {% endif %}
+        </select> 
+        </div>
+
+
+        <div class="col-sm-2" style="padding: 2%">
+        <button type="" id="jspm" class="btn btn-primary">filter</button>
+        </div>
+</form>
+
+<form method="post">
+        <div class="col-sm-2">
+        <label>Select filter <= limit</label>
+
+        <!-- <input type="range" min="0" max="20" id="blue" name='limit'> -->
+        <select class="form-control" name='limit' id = "blue">
+            {% if data %}
+            <option>select here</option>
+            {% for i in data%}
+            <option>{{i}}</option>
+            {% endfor %}
+
+            {% else %}
+            <option>select here</option>
+            {% for i in filter_result.data %}
+            <option>{{i}}</option>
+            {% endfor %}
+            {% endif %}
+        </select> 
+        </div>
+
+
+        <div class="col-sm-2" style="padding: 2%">
+        <button type="" id="jspm" class="btn btn-primary">filter</button>
+        </div>
+</form>
+
+</div>
+
+
+
+
+{% if filter_result %}
+
+
+    
+<center style = "color: red">{{filter_result.error_message}}</center>
+<div class="container" style="width: 50%; height: 35px">
+    <canvas id="gmyChartbar" width="400" height="300"></canvas>
+</div>
+
+
+
+<script>
+
+var ctx = document.getElementById('gmyChartbar').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{filter_result.labels}},
+        datasets: [{
+            label: '# of Students',
+            data: {{filter_result.results}} ,
+            backgroundColor: '#79a5a8',
+            // borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }
+
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+{% endif %}
+</body>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+	<script src="jquery-3.3.1.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+</head>
+<body>
+
+<div class="row" style="padding: 1%">
+	<!-- <form action="/getdata" method="post" id="formdata"> -->
+	<div class="col-sm-2">
+		<label>Select Red</label>
+		<input type="range" min="1" max="30" value="15" id="red" name='red'>
+
+		<!-- <select class="form-control" name="red" id="red">
+		    <option>5</option>
+		    <option>10</option>
+		    <option>15</option>
+		    <option>20</option>
+		    <option>25</option>
+		    <option>30</option>
+		</select>  -->
+	</div>
+
+	<div class="col-sm-2">
+		<label>Select Blue</label>
+
+		<input type="range" min="1" max="30" value="15" id="blue" name='blue'>
+		<!-- <select class="form-control" name='blue' id = "blue">
+		    <option>5</option>
+		    <option>10</option>
+		    <option>15</option>
+		    <option>20</option>
+		    <option>25</option>
+		    <option>30</option>
+		</select>  -->
+	</div>
+
+	<div class="col-sm-2">
+		<label>Select Yellow</label>
+		<input type="range" min="1" max="30" value="15" id="yellow" name='yellow'>
+
+		<!-- <select class="form-control" name='yellow' id="yellow">
+		    <option>5</option>
+		    <option>10</option>
+		    <option>15</option>
+		    <option>20</option>
+		    <option>25</option>
+		    <option>30</option>
+		</select>  -->
+	</div>
+
+	<div class="col-sm-2">
+		<label>Select Green</label>
+		<input type="range" min="1" max="30" value="15" id="green" name='green'>
+
+		<!-- <select class="form-control" name=green id="green">
+		    <option>5</option>
+		    <option>10</option>
+		    <option>15</option>
+		    <option>20</option>
+		    <option>25</option>
+		    <option>30</option>
+
+		</select>  -->
+	</div>
+
+
+	<div class="col-sm-2">
+		<label>Select Purple</label>
+		<input type="range" min="1" max="30" value="15" id="purple" name='purple'>
+
+		<!-- <select class="form-control" name='purple' id = "purple">
+		    <option>5</option>
+		    <option>10</option>
+		    <option>15</option>
+		    <option>20</option>
+		    <option>25</option>
+		    <option>30</option>
+		</select>  -->
+	</div>
+
+
+	<div class="col-sm-2">
+		<label>Select Orange</label>
+		<input type="range" min="1" max="30" value="15" id="orange" name='orange'>
+
+		<!-- <select class="form-control" name='orange' id = "orange">
+		    <option>5</option>
+		    <option>10</option>
+		    <option>15</option>
+		    <option>20</option>
+		    <option>25</option>
+		    <option>30</option>
+		</select>  -->
+	</div>
+	<div class="col-sm-2" style="padding: 2%">
+	<button type="" id="generatedata" class="btn btn-primary">Generate</button>
+	</div>
+	<!-- </form> -->
+</div>
+
+<!-- <p id="returndata">  </p>
+ -->
+<div class="row" style="padding: 1%">
+
+	<div class="col-sm-4">
+		<canvas id="myChartbar" width="400" height="300"></canvas>
+	</div>
+
+	<div class="col-sm-4">
+		<canvas id="myChartline" width="400" height="300"></canvas>
+	</div>
+
+	<div class="col-sm-4">
+		<canvas id="myChartpie" width="400" height="300"></canvas>
+	</div>
+
+
+
+
+	<div class="col-sm-4">
+		<canvas id="gmyChartbar" width="400" height="300"></canvas>
+	</div>
+
+	<div class="col-sm-4">
+		<canvas id="gmyChartline" width="400" height="300"></canvas>
+	</div>
+
+	<div class="col-sm-4">
+		<canvas id="gmyChartpie" width="400" height="300"></canvas>
+	</div>
+
+
+</div>
+
+<script>
+
+var getData = $.get('/data')
+getData.done(function(results){
+
+
+var ctx = document.getElementById('myChartbar').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: results.results,
+            backgroundColor: [
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }
+
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+});
+
+</script>
+
+
+
+
+<script>
+
+var getData = $.get('/data')
+getData.done(function(results){
+
+
+var ctx = document.getElementById('myChartpie').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: results.results,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+});
+
+</script>
+
+
+
+<script>
+
+var getData = $.get('/data')
+getData.done(function(results){
+
+
+var ctx = document.getElementById('myChartline').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: results.results,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+});
+
+	
+$('#generatedata').click(function(){
+	$.ajax({ 
+    type : "POST",
+    data: {
+	    'red' : $('#red').val(),
+	    'blue' : $('#blue').val(),
+	    'yellow': $('#yellow').val(),
+	    'green' : $('#green').val(),
+	    'purple' : $('#purple').val(),
+	    'orange' : $('#orange').val()
+    },
+    success : function(result) {
+   
+   console.log(result.results)
+   // $('#returndata').text(result.results)
+
+   	var ctx = document.getElementById('gmyChartline').getContext('2d');
+	var myChart = new Chart(ctx, {
+	    type: 'line',
+	    data: {
+	        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+	        datasets: [{
+	            label: '# of Votes',
+	            data: result.results,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero: true
+	                }
+	            }]
+	        }
+	    }
+	});
+
+
+
+
+	var ctx = document.getElementById('gmyChartpie').getContext('2d');
+	var myChart = new Chart(ctx, {
+	    type: 'pie',
+	    data: {
+	        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+	        datasets: [{
+	            label: '# of Votes',
+	            data: result.results,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero: true
+	                }
+	            }]
+	        }
+	    }
+	});
+
+
+
+
+	var ctx = document.getElementById('gmyChartbar').getContext('2d');
+	var myChart = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+	        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+	        datasets: [{
+	            label: '# of Votes',
+	            data: result.results,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero: true
+	                }
+	            }]
+	        }
+	    }
+	});
+
+
+
+
+    },
+    error : function() {
+   
+    sweetAlert('Error while creating folder..');
+    }
+    });
+
+});
+
+
+</script>
+
+</body>
+</html>
